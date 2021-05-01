@@ -4,12 +4,19 @@ const Header = (props) => {  // renders name of course
   return(<h1>{props.course}</h1>);
 
 }
-const Content = (props) => { // renders the parts and number of exercises
-  let content = [];
-  for (let i = 0; i < props.parts.length; i++) {
-    content.push(<p key={i}>{props.parts[i]} {props.exercises[i]}</p>);
-  }
-  return(<>{content}</>);
+
+const Part = (props) => { // a part and number of exercises for that part
+  return(<p>{props.part} {props.exercises}</p>);
+
+}
+const Content = (props) => { // renders the parts
+  return(
+    <div>
+      <Part part={props.parts[0]} exercises={props.exercises[0]}/>
+      <Part part={props.parts[1]} exercises={props.exercises[1]}/>
+      <Part part={props.parts[2]} exercises={props.exercises[2]}/>
+    </div>
+  );
 
 }
 const Total = (props) => { // renders total number of exercises
