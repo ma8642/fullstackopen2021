@@ -6,7 +6,6 @@ const Button = ({title, handleClick}) => <button onClick={handleClick}>{title}</
 const Statistic = ({title, stat}) => <p>{title} {stat}</p>;
 
 const All = ({allScores}) => {
-  console.log(allScores);
   const total = allScores.reduce((total, score) => {
      return total + score;
     }, 0);
@@ -34,6 +33,14 @@ const PercentPositiveFeeback = ({good, neutral, bad}) => {
 }
 
 const Statistics = ({good, neutral, bad }) => {
+  if (good === 0 && neutral === 0 && bad === 0) {
+    return (
+      <div id="statistics">
+        <SectionTitle title={"statistics"} />
+        <p>No feedback given</p>
+      </div>
+    );
+  }
   return (
     <div id="statistics">
       <SectionTitle title={"statistics"} />
