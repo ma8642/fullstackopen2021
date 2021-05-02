@@ -1,7 +1,31 @@
 import React, { useState } from 'react';
 const SectionTitle = ({title}) => <h1>{title}</h1>;
+
 const Button = ({title, handleClick}) => <button onClick={handleClick}>{title}</button>;
+
 const Statistic = ({title, stat}) => <p>{title} {stat}</p>;
+
+const All = ({total}) => <p>all {total}</p>;
+
+const Average = ({good, neutral, bad}) => {
+  const totalGood = good * 1;
+  const totalNeutral = 0;
+  const totalBad = bad * -1;
+  let avg = (totalGood + totalNeutral + totalBad) / (good + neutral + bad);
+  if (Number.isNaN(avg)) {
+    avg = 0;
+  }
+  return(<p>average {avg}</p>);
+};
+
+const PercentPositiveFeeback = ({good, neutral, bad}) => {
+  const total = good + neutral + bad;
+  let percentPositive = (good * 100) / total;
+  if (Number.isNaN(percentPositive)) {
+    percentPositive = 0;
+  }
+  return (<p>positive {percentPositive}%</p>);
+}
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -21,6 +45,9 @@ const App = () => {
         <Statistic title={"good"} stat={good} />
         <Statistic title={"neutral"} stat={neutral} />
         <Statistic title={"bad"} stat={bad} />
+        <All total={good+neutral+bad}/>
+        <Average good={good} neutral={neutral} bad ={bad} />
+        <PercentPositiveFeeback good={good} neutral={neutral} bad={bad} />
       </div>
     </div>
   );
