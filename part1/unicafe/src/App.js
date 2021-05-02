@@ -44,6 +44,7 @@ const Statistics = ({good, neutral, bad }) => {
   return (
     <div id="statistics">
       <SectionTitle title={"statistics"} />
+      {/* Already did this! */}
       <Statistic title={"good"} stat={good} />
       <Statistic title={"neutral"} stat={neutral} />
       <Statistic title={"bad"} stat={bad} />
@@ -63,6 +64,7 @@ const App = () => {
     <div>
       <div id="give-feedback">
         <SectionTitle title={"give feedback"} />
+        {/* Already did this! */}
         <Button title={"good"} handleClick={() => setGood(good + 1)}/>
         <Button title={"neutral"} handleClick={() => setNeutral(neutral + 1)}/>
         <Button title={"bad"} handleClick={() => setBad(bad + 1)}/>
