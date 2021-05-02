@@ -5,7 +5,13 @@ const Button = ({title, handleClick}) => <button onClick={handleClick}>{title}</
 
 const Statistic = ({title, stat}) => <p>{title} {stat}</p>;
 
-const All = ({total}) => <p>all {total}</p>;
+const All = ({allScores}) => {
+  console.log(allScores);
+  const total = allScores.reduce((total, score) => {
+     return total + score;
+    }, 0);
+  return <p>all {total}</p>;
+};
 
 const Average = ({good, neutral, bad}) => {
   const totalGood = good * 1;
@@ -27,6 +33,20 @@ const PercentPositiveFeeback = ({good, neutral, bad}) => {
   return (<p>positive {percentPositive}%</p>);
 }
 
+const Statistics = ({good, neutral, bad }) => {
+  return (
+    <div id="statistics">
+      <SectionTitle title={"statistics"} />
+      <Statistic title={"good"} stat={good} />
+      <Statistic title={"neutral"} stat={neutral} />
+      <Statistic title={"bad"} stat={bad} />
+      <All allScores={[good, neutral, bad]}/>
+      <Average good={good} neutral={neutral} bad ={bad} />
+      <PercentPositiveFeeback good={good} neutral={neutral} bad={bad} />
+    </div>
+  );
+}
+
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -40,15 +60,7 @@ const App = () => {
         <Button title={"neutral"} handleClick={() => setNeutral(neutral + 1)}/>
         <Button title={"bad"} handleClick={() => setBad(bad + 1)}/>
       </div>
-      <div id="statistics">
-        <SectionTitle title={"statistics"} />
-        <Statistic title={"good"} stat={good} />
-        <Statistic title={"neutral"} stat={neutral} />
-        <Statistic title={"bad"} stat={bad} />
-        <All total={good+neutral+bad}/>
-        <Average good={good} neutral={neutral} bad ={bad} />
-        <PercentPositiveFeeback good={good} neutral={neutral} bad={bad} />
-      </div>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   );
 }
