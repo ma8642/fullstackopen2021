@@ -1,5 +1,42 @@
 import React, { useState } from "react";
 
+const SectionTitle = ({ title }) => {
+  return <h1>{title}</h1>;
+};
+
+const Button = ({ title, handleClick }) => {
+  return <button onClick={handleClick}>{title}</button>;
+};
+
+const AnecdoteOfTheDay = ({
+  anecdotes,
+  selected,
+  points,
+  handleVote,
+  handleClick,
+}) => {
+  return (
+    <div>
+      <SectionTitle title={"Anecdote of the day"} />
+      <p>{anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      <Button title={"vote"} handleClick={handleVote} />
+      <Button title={"next anecdote"} handleClick={handleClick} />
+    </div>
+  );
+};
+
+const MostVotedAnecdote = ({ anecdotes, points }) => {
+  const mostVotedIdx = points.indexOf(Math.max(...points));
+  return (
+    <div>
+      <SectionTitle title={"Anecdote with the most votes"} />
+      <p>{anecdotes[mostVotedIdx]}</p>
+      <p>has {points[mostVotedIdx]} votes</p>
+    </div>
+  );
+};
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often",
@@ -27,10 +64,14 @@ const App = () => {
 
   return (
     <div>
-      <div id="anecdote">{anecdotes[selected]}</div>
-      <div id="votes">has {points[selected]} votes</div>
-      <button onClick={handleClick}>next anecdote</button>
-      <button onClick={handleVote}>vote</button>
+      <AnecdoteOfTheDay
+        anecdotes={anecdotes}
+        selected={selected}
+        points={points}
+        handleVote={handleVote}
+        handleClick={handleClick}
+      />
+      <MostVotedAnecdote anecdotes={anecdotes} points={points} />
     </div>
   );
 };
