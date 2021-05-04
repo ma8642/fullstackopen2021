@@ -1,7 +1,38 @@
 import React from "react";
-import Header from "./Header";
-import Content from "./Content";
-import Total from "./Total";
+
+const Header = ({ title }) => {
+  // renders name of course
+  return <h1>{title}</h1>;
+};
+
+const Part = ({ name, exercises }) => {
+  return (
+    <p>
+      {name} {exercises}
+    </p>
+  );
+};
+
+const Content = ({ parts }) => {
+  return (
+    <>
+      {parts.map((part) => (
+        <Part key={part.id} name={part.name} exercises={part.exercises} />
+      ))}
+    </>
+  );
+};
+
+const Total = ({ parts }) => {
+  const totalExercises = parts.reduce((total, part) => {
+    return total + part.exercises;
+  }, 0);
+  return (
+    <p>
+      <b>total of {totalExercises} exercises</b>
+    </p>
+  );
+};
 
 const Course = ({ course }) => {
   return (
