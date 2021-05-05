@@ -5,15 +5,15 @@ const Weather = ({ capital, weather }) => {
     <div>
       {Object.keys(weather).length > 0 ? (
         <>
-          <p>temperature: {weather.temp} </p>
+          <p>temperature: {weather.temp} Celcius</p>
           <p>description: {weather.descr}</p>
-          <p>wind: {weather.wind} </p>
+          <p>wind: {weather.wind}</p>
         </>
       ) : (
         <>
-          <p>temperature: Loading... </p>
-          <p>description: Loading... </p>
-          <p>wind: Loading... </p>
+          <p>temperature: Loading...</p>
+          <p>description: Loading...</p>
+          <p>wind: Loading...</p>
         </>
       )}
     </div>
