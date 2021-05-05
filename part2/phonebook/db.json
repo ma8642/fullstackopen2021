@@ -1,0 +1,24 @@
+{
+  "persons": [
+    {
+      "name": "Arto Hellas",
+      "number": "(040) 123-4567",
+      "id": 1
+    },
+    {
+      "name": "Ada Lovelace",
+      "number": "(394) 453-2523",
+      "id": 2
+    },
+    {
+      "name": "Katherine Johnson",
+      "number": "(124) 323-4345",
+      "id": 3
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "(392) 364 2322",
+      "id": 4
+    }
+  ]
+}

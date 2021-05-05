@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Person from "./components/Person";
+import axios from "axios";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "(040) 123-4567" },
-    { name: "Ada Lovelace", number: "(394) 453-2523" },
-    { name: "Katherine Johnson", number: "(124) 323-4345" },
-    { name: "Mary Poppendieck", number: "(392) 364 2322" },
-  ]);
+  const [persons, setPersons] = useState([]);
   const [filter, setFilter] = useState("");
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -42,6 +38,14 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []); // empty array ensure that effect will get called during first render
+
   const personsToShow =
     filter.length === 0
       ? persons
@@ -53,9 +57,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Filter filter={filter} handleChange={handleChangeFilter} />
-      <h1>add new</h1>
+      <h2>add new</h2>
       <PersonForm
         handleSubmit={handleSubmit}
         newName={newName}
