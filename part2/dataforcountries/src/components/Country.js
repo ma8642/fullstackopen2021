@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Weather from "./Weather";
 
-const Country = ({ name, capital, population, languages, flag }) => {
+const Country = ({ name, capital, population, languages, flag, weather }) => {
   return (
     <div>
       <h1>{name}</h1>
@@ -13,6 +14,7 @@ const Country = ({ name, capital, population, languages, flag }) => {
         ))}
       </ul>
       <img src={flag} alt={`Flag of ${name}`} style={{ width: "100%" }} />
+      <Weather capital={capital} weather={weather} />
     </div>
   );
 };

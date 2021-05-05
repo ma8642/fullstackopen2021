@@ -5,14 +5,32 @@ import ListItem from "./components/ListItem";
 import axios from "axios";
 
 function App() {
+  const openWeatherApiKey = process.env.REACT_APP_API_KEY;
   const [input, setInput] = useState("");
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState("");
   const [showCountry, setShowCountry] = useState({});
+  const [weather, setWeather] = useState({});
+
+  const getWeatherInCapital = (country) => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&appid=${openWeatherApiKey}&units=metric`
+      )
+      .then((response) =>
+        setWeather({
+          temp: response.data.main.temp,
+          descr: response.data.weather[0].description,
+          wind: response.data.wind.speed,
+        })
+      );
+  };
 
   const handleChange = (event) => {
+    // filter countries as user types
     setError("");
     setShowCountry({});
+    setWeather({});
     setInput(event.target.value);
     if (event.target.value.length > 0) {
       // don't search when input="", i.e. user deleted all text
@@ -21,6 +39,7 @@ function App() {
         .then((response) => {
           if (response.data.length === 1) {
             setCountries(response.data);
+            getWeatherInCapital(response.data[0]);
           } else {
             setCountries(response.data);
           }
@@ -30,10 +49,13 @@ function App() {
   };
 
   const handleClick = (country) => {
+    // display whatever country user clicks
+    getWeatherInCapital(country);
     setShowCountry(country);
   };
 
   useEffect(() => {
+    // pre-populate countries list with ALL countries
     axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
       const countryNames = response.data.map((country) => country.name);
       setCountries(countryNames);
@@ -64,6 +86,7 @@ function App() {
                 population={showCountry.population}
                 languages={showCountry.languages}
                 flag={showCountry.flag}
+                weather={weather}
               />
             ) : (
               <></>
@@ -78,6 +101,7 @@ function App() {
           population={countries[0].population}
           languages={countries[0].languages}
           flag={countries[0].flag}
+          weather={weather}
         />
       ) : (
         <p>Loading...</p>
