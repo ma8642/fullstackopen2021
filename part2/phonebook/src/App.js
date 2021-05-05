@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-
-const PhonebookEntry = ({ person }) => {
-  return (
-    <p>
-      {person.name} {person.number}
-    </p>
-  );
-};
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Person from "./components/Person";
 
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "(040) 123-4567" },
     { name: "Ada Lovelace", number: "(394) 453-2523" },
-    { name: "Dan Abramov", number: "(124) 323-4345" },
+    { name: "Katherine Johnson", number: "(124) 323-4345" },
     { name: "Mary Poppendieck", number: "(392) 364 2322" },
   ]);
   const [filter, setFilter] = useState("");
@@ -59,32 +54,18 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <label for="filter">filter shown with </label>
-      <input name="filter" value={filter} onChange={handleChangeFilter} />
+      <Filter filter={filter} handleChange={handleChangeFilter} />
       <h1>add new</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label for="name">name:</label>
-          <input name="name" value={newName} onChange={handleChangeName} />
-        </div>
-        <div>
-          <label for="number">number:</label>
-          <input
-            name="number"
-            value={newNumber}
-            type="tel"
-            pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-            placeholder="(XXX) XXX-XXXX"
-            onChange={handleChangeNumber}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        handleSubmit={handleSubmit}
+        newName={newName}
+        handleChangeName={handleChangeName}
+        newNumber={newNumber}
+        handleChangeNumber={handleChangeNumber}
+      />
       <h2>Numbers</h2>
       {personsToShow.map((person) => (
-        <PhonebookEntry key={person.name} person={person} />
+        <Person key={person.name} person={person} />
       ))}
     </div>
   );
