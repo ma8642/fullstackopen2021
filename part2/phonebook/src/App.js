@@ -10,7 +10,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [notify, setNotify] = useState(null);
+  const [notify, setNotify] = useState({ message: null, messageType: null });
 
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
@@ -22,6 +22,27 @@ const App = () => {
 
   const handleChangeNumber = (event) => {
     setNewNumber(event.target.value);
+  };
+
+  const notification = ({
+    message,
+    messageType,
+    shouldDelete = false,
+    name = "",
+  }) => {
+    setNotify({
+      message,
+      messageType,
+    });
+    setTimeout(() => {
+      // remove notification after 5 seconds
+      setNotify({ message: null, messageType: null });
+    }, 5000);
+    if (shouldDelete) {
+      // Delete the person from frontend
+      const arrayWithoutPerson = persons.filter((p) => p.name !== name);
+      setPersons(arrayWithoutPerson);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -50,34 +71,55 @@ const App = () => {
               ]);
               setNewName("");
               setNewNumber("");
-              setNotify(`Updated phone number for ${returnedPerson.name}!`);
-              setTimeout(() => {
-                // remove notification after 5 seconds
-                setNotify(null);
-              }, 5000);
+              notification({
+                message: `Updated phone number for ${returnedPerson.name}!`,
+                messageType: "notif",
+              });
+            })
+            .catch((err) => {
+              notification({
+                message: `Information of ${newName} has already been removed from server`,
+                messageType: "error",
+                shouldDelete: true,
+                name: newName,
+              });
             });
         }
       } else {
         return alert(`${newName} is already added to phonebook`);
       }
     } else {
-      personService.createPerson(newPerson).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-        setNotify(`Added ${returnedPerson.name}!`);
-        setTimeout(() => {
-          // remove notification after 5 seconds
-          setNotify(null);
-        }, 5000);
-      });
+      personService
+        .createPerson(newPerson)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+          notification({
+            message: `Added ${returnedPerson.name}!`,
+            messageType: "notif",
+          });
+        })
+        .catch((err) => {
+          notification({
+            message: `Information of ${newName} has already been removed from server`,
+            messageType: "error",
+            shouldDelete: true,
+            name: newName,
+          });
+        });
     }
   };
 
   const handleDelete = (person) => {
     const result = window.confirm(`Delete ${person.name}?`);
     if (result) {
-      personService.deletePerson(person.id);
+      personService.deletePerson(person.id).catch((err) => {
+        notification({
+          message: `Information of ${person.name} has already been removed from server`,
+          messageType: "error",
+        });
+      });
       const arrayWithoutPerson = persons.filter((p) => p.id !== person.id);
       setPersons(arrayWithoutPerson);
     }
@@ -101,7 +143,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={notify} />
+      <Notification message={notify.message} messageType={notify.messageType} />
       <Filter filter={filter} handleChange={handleChangeFilter} />
       <h2>add new</h2>
       <PersonForm
