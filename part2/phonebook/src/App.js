@@ -24,13 +24,36 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let addNewPerson = true;
     const newPerson = { name: newName, number: newNumber };
-    if (
-      persons.some(
-        (person) => person.name.toLowerCase() === newName.toLowerCase()
-      )
-    ) {
-      alert(`${newName} is already added to phonebook`);
+    const indexAlreadyInList = persons.reduce((foundIdx, p, i) => {
+      if (p.name.toLowerCase() === newName.toLowerCase()) {
+        foundIdx = i;
+      }
+      return foundIdx;
+    }, -1);
+    if (indexAlreadyInList >= 0) {
+      const outdatedPerson = persons[indexAlreadyInList];
+      if (outdatedPerson.number != newNumber) {
+        const updateNumber = window.confirm(
+          `${outdatedPerson.name} is already added to phonebook, replace the old number with a new one?`
+        );
+        if (updateNumber) {
+          personService
+            .updatePerson(outdatedPerson.id, newPerson)
+            .then((returnedPerson) => {
+              setPersons([
+                ...persons.slice(0, indexAlreadyInList),
+                returnedPerson,
+                ...persons.slice(indexAlreadyInList + 1),
+              ]);
+              setNewName("");
+              setNewNumber("");
+            });
+        }
+      } else {
+        return alert(`${newName} is already added to phonebook`);
+      }
     } else {
       personService.createPerson(newPerson).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
