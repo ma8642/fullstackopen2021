@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Notification from "./components/Notification";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Person from "./components/Person";
@@ -9,6 +10,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [notify, setNotify] = useState(null);
 
   const handleChangeFilter = (event) => {
     setFilter(event.target.value);
@@ -24,7 +26,6 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let addNewPerson = true;
     const newPerson = { name: newName, number: newNumber };
     const indexAlreadyInList = persons.reduce((foundIdx, p, i) => {
       if (p.name.toLowerCase() === newName.toLowerCase()) {
@@ -49,6 +50,11 @@ const App = () => {
               ]);
               setNewName("");
               setNewNumber("");
+              setNotify(`Updated phone number for ${returnedPerson.name}!`);
+              setTimeout(() => {
+                // remove notification after 5 seconds
+                setNotify(null);
+              }, 5000);
             });
         }
       } else {
@@ -59,6 +65,11 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
+        setNotify(`Added ${returnedPerson.name}!`);
+        setTimeout(() => {
+          // remove notification after 5 seconds
+          setNotify(null);
+        }, 5000);
       });
     }
   };
@@ -90,6 +101,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notify} />
       <Filter filter={filter} handleChange={handleChangeFilter} />
       <h2>add new</h2>
       <PersonForm
