@@ -32,11 +32,20 @@ const App = () => {
     ) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      personService.create(newPerson).then((returnedPerson) => {
+      personService.createPerson(newPerson).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
         setNewName("");
         setNewNumber("");
       });
+    }
+  };
+
+  const handleDelete = (person) => {
+    const result = window.confirm(`Delete ${person.name}?`);
+    if (result) {
+      personService.deletePerson(person.id);
+      const arrayWithoutPerson = persons.filter((p) => p.id !== person.id);
+      setPersons(arrayWithoutPerson);
     }
   };
 
@@ -69,7 +78,11 @@ const App = () => {
       />
       <h2>Numbers</h2>
       {personsToShow.map((person) => (
-        <Person key={person.name} person={person} />
+        <Person
+          key={person.name}
+          person={person}
+          handleClick={() => handleDelete(person)}
+        />
       ))}
     </div>
   );

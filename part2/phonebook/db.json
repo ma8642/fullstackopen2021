@@ -1,39 +1,14 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "(040) 123-4567",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "(394) 453-2523",
-      "id": 2
-    },
-    {
       "name": "Katherine Johnson",
       "number": "(124) 323-4345",
       "id": 3
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "(392) 364 2322",
-      "id": 4
-    },
-    {
-      "name": "angora phipps",
-      "number": "(888) 999-7351",
-      "id": 5
-    },
-    {
       "name": "Marnie Bibbs",
       "number": "(954) 823-1278",
       "id": 6
-    },
-    {
-      "name": "Carnegie Wilt",
-      "number": "(888) 543-7256",
-      "id": 7
     },
     {
       "name": "Avathon Gorr",
@@ -44,6 +19,11 @@
       "name": "Zamazie Book",
       "number": "(363) 463-4638",
       "id": 9
+    },
+    {
+      "name": "Archie Reynolds",
+      "number": "(660) 777-9037",
+      "id": 10
     }
   ]
 }
