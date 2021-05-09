@@ -56,7 +56,7 @@ const App = () => {
     }, -1);
     if (indexAlreadyInList >= 0) {
       const outdatedPerson = persons[indexAlreadyInList];
-      if (outdatedPerson.number != newNumber) {
+      if (outdatedPerson.number !== newNumber) {
         const updateNumber = window.confirm(
           `${outdatedPerson.name} is already added to phonebook, replace the old number with a new one?`
         );

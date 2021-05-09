@@ -1,19 +1,9 @@
 {
   "persons": [
     {
-      "name": "Katherine Johnson",
-      "number": "(124) 323-4345",
-      "id": 3
-    },
-    {
       "name": "Marnie Bibbs",
       "number": "(954) 823-1278",
       "id": 6
-    },
-    {
-      "name": "Avathon Gorr",
-      "number": "(364) 782-7282",
-      "id": 8
     },
     {
       "name": "Zamazie Book",
@@ -27,7 +17,7 @@
     },
     {
       "name": "blix shaw",
-      "number": "(058) 573-5873",
+      "number": "(958) 853-8758",
       "id": 15
     }
   ]
