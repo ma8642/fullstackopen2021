@@ -101,8 +101,9 @@ const App = () => {
           });
         })
         .catch((err) => {
+          console.log(err.response.status === 409);
           notification({
-            message: `Information of ${newName} has already been removed from server`,
+            message: `${err.response.data.error}`,
             messageType: "error",
             shouldDelete: true,
             name: newName,
